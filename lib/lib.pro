@@ -11,15 +11,9 @@ CONFIG += c++17
 
 SOURCES += \
     lib.cpp \
-    producto.cpp \
-    tienda.cpp \
 
 HEADERS += \
-    excepcionesProducto.h \
-    excepcionesTienda.h \
-    lib.h \
-    producto.h \
-    tienda.h
+    lib.h 
 
 
 # Default rules for deployment.

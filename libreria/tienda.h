@@ -15,8 +15,6 @@ private:
     char direccionWeb[24];
     char direccionFisica[24];
     char telefono[8];
-    ;
-
 public:
     Tienda(string nombre, string direccionWeb, string direccionFisica, string telefono);
     void ConstructorIU(string nombre, string direccionWeb, string direccionFisica, string telefono);
@@ -34,7 +32,6 @@ public:
     ~Tienda();
 
     friend ostream &operator<<(ostream &o, const Tienda *tienda);
-    ;
 };
 
 #endif

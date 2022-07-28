@@ -1,10 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
 #include "../libreria/producto.h"
 #include "../libreria/tienda.h"
-#include "../libreria/excepcionesTienda.h"
-#include "../libreria/excepcionesProducto.h"
 #include "QMessageBox"
 #include "QFileDialog"
 #include "modificarformulario.h"
@@ -68,13 +65,13 @@ void MainWindow::on_btnAgregar_clicked()
     }
 }
 
-// Modificar producto: agregar errores.
+// Modificar producto
 void MainWindow::on_btnModificar_clicked()
 {
     QListWidgetItem *producto = this->ui->listWidget->currentItem();
 
+    // no hay item seleccionado
     if (producto == nullptr){
-        // no hay item seleccionado
         QMessageBox *msgbox = new QMessageBox(this);
         msgbox->setWindowTitle("Selección de item");
         msgbox->setText("No se ha seleccionado ningún item");
@@ -99,12 +96,12 @@ void MainWindow::on_btnModificar_clicked()
         QString nombreProducto_ = QString::fromStdString(nombreProducto);
         QString existenciasProducto_ = QString::number(existencias);
 
-        this->ui->listWidget->currentItem()->setText(" [ " + idProducto_ + " ] " + "  " 
+        this->ui->listWidget->currentItem()->setText(" [ " + idProducto_ + " ] " + "  "
         + nombreProducto_ + "  " + "  < Disponibles: " + existenciasProducto_ + " > ");
     }
 }
 
-// Eliminar listo
+// Eliminar
 void MainWindow::on_btnEliminar_clicked()
 {
     QListWidgetItem *itemSeleccionado = this->ui->listWidget->currentItem();
@@ -119,9 +116,16 @@ void MainWindow::on_btnEliminar_clicked()
     }
     else
     {
-        QListWidgetItem *linea = this->ui->listWidget->takeItem(this->ui->listWidget->currentRow());
-        delete linea;
-        this->tienda->Borrar(this->ui->listWidget->currentRow());
+        try {
+            QListWidgetItem *linea = this->ui->listWidget->takeItem(this->ui->listWidget->currentRow());
+            delete linea;
+            this->tienda->Borrar(this->ui->listWidget->currentRow());
+        } catch (const exception &e) {
+            QMessageBox *msgbox = new QMessageBox(this);
+            msgbox->setWindowTitle("Error");
+            msgbox->setText("No podido eliminar correctamente");
+            msgbox->open();
+        }
     }
 }
 
@@ -157,7 +161,6 @@ void MainWindow::on_btnGuardarTienda_clicked()
         string dirWeb = this->ui->lineDirWeb->text().toStdString();
         string dirFisica = this->ui->lineDirFisica->text().toStdString();
         string telefono = this->ui->lineTelefono->text().toStdString();
-
         try{
 
             this->tienda->ConstructorIU(nombre, dirWeb, dirFisica, telefono);
@@ -170,19 +173,27 @@ void MainWindow::on_btnGuardarTienda_clicked()
             return;
         }
 
-        string archivoBinario_ = archivoBinario.toStdString();
-        ofstream archivoSalida(archivoBinario_, ios::out | ios::binary);
+        try {
+            string archivoBinario_ = archivoBinario.toStdString();
+            ofstream archivoSalida(archivoBinario_, ios::out | ios::binary);
+            if (!archivoSalida.is_open()){
+                QMessageBox *msgBox = new QMessageBox(this);
+                msgBox->setWindowTitle("Error");
+                msgBox->setText("No se ha podido abrir el archivo");
+                msgBox->open();
+                return;
+            }
 
-        if (!archivoSalida.is_open()){
+            this->tienda->StreamSalida(&archivoSalida);
+            archivoSalida.close();
+
+        }catch (const exception &e){
             QMessageBox *msgBox = new QMessageBox(this);
             msgBox->setWindowTitle("Error");
-            msgBox->setText("No se ha podido abrir el archivo");
+            msgBox->setText("Ha ocurrido un erorr cargando el archivo");
             msgBox->open();
             return;
-        }
-
-        this->tienda->StreamSalida(&archivoSalida);
-        archivoSalida.close();
+       }
     }
 }
 
@@ -202,28 +213,36 @@ void MainWindow::on_btnCargarTienda_clicked()
             msgBox->open();
             return;
         }
+        try {
+            this->tienda = new Tienda();
+            this->tienda->StreamEntrada(&archivoEntrada);
+            archivoEntrada.close();
 
-        this->tienda = new Tienda();
-        this->tienda->StreamEntrada(&archivoEntrada);
-        archivoEntrada.close();
+            stringstream generarUI;
+            generarUI << this->tienda;
+            string tira{};
 
-        stringstream generarUI;
-        generarUI << this->tienda;
-        string tira{};
+            getline(generarUI, tira);
+            this->ui->lineNombre->setText(QString::fromStdString(tira));
+            getline(generarUI, tira);
+            this->ui->lineDirWeb->setText(QString::fromStdString(tira));
+            getline(generarUI, tira);
+            this->ui->lineDirFisica->setText(QString::fromStdString(tira));
+            getline(generarUI, tira);
+            this->ui->lineTelefono->setText(QString::fromStdString(tira).mid(0, 8));
+            this->ui->listWidget->clear();
 
-        getline(generarUI, tira);
-        this->ui->lineNombre->setText(QString::fromStdString(tira));
-        getline(generarUI, tira);
-        this->ui->lineDirWeb->setText(QString::fromStdString(tira));
-        getline(generarUI, tira);
-        this->ui->lineDirFisica->setText(QString::fromStdString(tira));
-        getline(generarUI, tira);
-        this->ui->lineTelefono->setText(QString::fromStdString(tira).mid(0, 8));
-        this->ui->listWidget->clear();
+            while (getline(generarUI, tira)){
+                QString producto = QString::fromStdString(tira);
+                this->ui->listWidget->addItem(producto);
+            }
 
-        while (getline(generarUI, tira)){
-            QString producto = QString::fromStdString(tira);
-            this->ui->listWidget->addItem(producto);
+        }catch (const exception &e){
+            QMessageBox *msgBox = new QMessageBox(this);
+            msgBox->setWindowTitle("Error");
+            msgBox->setText("No se ha podido cargar la tienda correctamente");
+            msgBox->open();
+            return;
         }
     }
 }

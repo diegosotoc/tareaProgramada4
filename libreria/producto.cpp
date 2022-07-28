@@ -37,14 +37,12 @@ Producto::~Producto(){
 
 }
 
-// Metodo para modiciar el nombre del producto.
 void Producto::ModificarNombre(string nuevoNombre){
     if (nuevoNombre.length() == 0 || nuevoNombre.length() > 20){
         throw ExcepcionNombreProducto();
     }
     strcpy(this->nombreProducto, nuevoNombre.c_str());
 }
-// Metodo para modiciar la existencia del producto.
 void Producto::ModificarExistencias(int existencias)
 {
     this->Existencias = existencias;
