@@ -14,10 +14,10 @@ Para ejecutar el código es necesario clonar este repositorio y abrir la aplicac
 ### Cargar Tienda
 Dado sea el caso que cuente con un archivo binario de una tienda, se puede importar siguiendo estos pasos:
 - Presionar el botón de cargar Tienda 
-![Alt text](/img/cargarTienda.png "Optional title")
+![CargarIienda](/img/cargarTienda.png "CargarTienda")
 - Presionar el botón de cargar Tienda
 
-![Alt text](/img/crearTienda.png "Optional title")
+![CrearTienda](/img/crearTienda.png "CrearTienda")
 ### Crear Tienda 
 ![Alt text](/posts/path/to/img.jpg "Optional title")
 ### Agregrar productos 
