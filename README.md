@@ -16,18 +16,14 @@ Dado sea el caso que cuente con un archivo binario de una tienda, se puede impor
 - Presionar el botón de cargar Tienda 
 ![CargarIienda](/img/cargarTienda.png "CargarTienda")
 - Presionar el botón de cargar Tienda
-
 ![CrearTienda](/img/crearTienda.png "CrearTienda")
-### Crear Tienda 
-![Alt text](/posts/path/to/img.jpg "Optional title")
-### Agregrar productos 
-![Alt text](/posts/path/to/img.jpg "Optional title")
-
-
+### Editar productos 
+- Presionar el botón de editar producto, el ID del producto se mantendrá al que ya tenía anteriormente.
+![EditarpProducto](/img/editarProducto.png "Editar Producto")
 
 ## Solución a posibles errores de compilación
-![Alt text](/posts/path/to/img.jpg "Optional title")
-
+- En caso de que se presente este error de compilación, para solucionarlo es necesario eliminar la línea número: 103. Guardar y ejecutar el código de nuevo.
+![Error](/img/error.png "Error")
 
 ## Contribuidores:
 - Mauricio Ulate: Profesor y guía del proyecto.
