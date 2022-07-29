@@ -39,9 +39,9 @@ void MainWindow::on_btnCrearTienda_clicked()
 void MainWindow::on_btnAgregar_clicked()
 {
     agregarFormulario agregarFormulario{this};
-    int result = agregarFormulario.exec();
+    int ventana = agregarFormulario.exec();
 
-    if (result == QDialog::Accepted){
+    if (ventana == QDialog::Accepted){
         int idProducto = agregarFormulario.GetID();
         string nombreProducto = agregarFormulario.GetNombre();
         int existenciasProducto = agregarFormulario.GetExistencias();
@@ -78,7 +78,7 @@ void MainWindow::on_btnModificar_clicked()
         msgbox->open();
     }else{
         modificarFormulario modificarFormulario{this};
-        int result = modificarFormulario.exec();
+        int ventana = modificarFormulario.exec();
 
         QString idProducto_ = QString::number(this->tienda->GetProducto(this->ui->listWidget->currentRow())->GetID());
         string nombreProducto = modificarFormulario.GetNombre();
