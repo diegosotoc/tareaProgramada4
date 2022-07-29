@@ -12,7 +12,12 @@ Para ejecutar el código es necesario clonar este repositorio y abrir la aplicac
 ## Funcionamiento de la tienda
 
 ### Cargar Tienda
-![Alt text](/img/cargarTIenda.png "Optional title")
+Dado sea el caso que cuente con un archivo binario de una tienda, se puede importar siguiendo estos pasos:
+- Presionar el botón de cargar Tienda 
+![Alt text](/img/cargarTienda.png "Optional title")
+- Presionar el botón de cargar Tienda
+
+![Alt text](/img/crearTienda.png "Optional title")
 ### Crear Tienda 
 ![Alt text](/posts/path/to/img.jpg "Optional title")
 ### Agregrar productos 
